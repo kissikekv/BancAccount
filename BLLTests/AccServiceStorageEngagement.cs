@@ -102,15 +102,28 @@ namespace BLLTest
         }
 
         [Test]        
-        public void WriteOff_Money_()
+        public void WriteOff_Money_MoneyWithdrawn()
         {
             var fileStorage = new FileStorage(path);
             AccountService accountService = new AccountService(fileStorage);
 
             fileStorage.AddAccount(testAccBlack);
             accountService.WriteOffMoney(testAccBlack.AccountNumber, 123m);
+            decimal? moneyAmount = (fileStorage.FindAccountByNumber(testAccBlack.AccountNumber)).Balance;
 
-            Assert.True((testAccBlack.Balance - 123m) == (0.123m));
+            Assert.True((testAccBlack.Balance - 123m) == moneyAmount);
+        }
+
+        [Test]
+        public void WriteOff_Money_MoneyNotWithdrawn()
+        {
+            var fileStorage = new FileStorage(path);
+            AccountService accountService = new AccountService(fileStorage);
+
+            fileStorage.AddAccount(testAccBlack);
+            decimal? moneyAmount = (fileStorage.FindAccountByNumber(testAccBlack.AccountNumber)).Balance;
+
+            Assert.True(testAccBlack.Balance  == moneyAmount);
         }
     }
 }

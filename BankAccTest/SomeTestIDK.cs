@@ -53,8 +53,15 @@ namespace StorageLayerTest
 
             fileStorage.AddAccount(firstTestAcc);
             AccountDto? accForSearch = fileStorage.FindAccountByNumber(accNumb);
+            bool equalOrNot = accForSearch != null &&
+                (accForSearch.AccountNumber == firstTestAcc.AccountNumber) &&
+                (accForSearch.NameOfOwner == firstTestAcc.NameOfOwner) &&
+                (accForSearch.SurnameOfOwner == firstTestAcc.SurnameOfOwner) &&
+                (accForSearch.Balance == firstTestAcc.Balance) &&
+                (accForSearch.Bonuses == firstTestAcc.Bonuses) &&
+                (accForSearch.AccountGradation == firstTestAcc.AccountGradation);
 
-            Assert.That(expectation, Is.EqualTo(firstTestAcc.Equals(accForSearch)));
+            Assert.That(expectation, Is.EqualTo(equalOrNot));
         }
 
         [TestCase(firstAccNumber)]
@@ -79,7 +86,7 @@ namespace StorageLayerTest
         }
 
         [Test]
-        public void Delete_OneAccount_AccountIsDeleted()
+        public void Delete_OneAccount_AccountDeleted()
         {
             var fileStorage = new FileStorage(path);
 
@@ -91,7 +98,7 @@ namespace StorageLayerTest
             Assert.That(fileStorage.FindAccountByNumber(firstAccNumber), Is.EqualTo(null));
         }
         [Test]
-        public void Update_OneAccount_AccountIsUpdate()
+        public void Update_OneAccount_AccountUpdated()
         {
             var fileStorage = new FileStorage(path);
             var acc = new AccountDto()
