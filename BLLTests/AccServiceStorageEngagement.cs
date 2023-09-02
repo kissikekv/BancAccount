@@ -1,5 +1,4 @@
 ﻿using BLL;
-using Moq;
 using Storage;
 
 namespace BLLTest
@@ -58,8 +57,15 @@ namespace BLLTest
                 testAccBlack.Bonuses,
                 testAccBlack.AccountGradation);
             AccountDto? accountDto = fileStorage.FindAccountByNumber(testAccBlack.AccountNumber);
+            bool equalOrNot = accountDto != null &&
+                (accountDto.AccountNumber == testAccBlack.AccountNumber) &&
+                (accountDto.NameOfOwner == testAccBlack.NameOfOwner) &&
+                (accountDto.SurnameOfOwner == testAccBlack.SurnameOfOwner) &&
+                (accountDto.Balance == testAccBlack.Balance) &&
+                (accountDto.Bonuses == testAccBlack.Bonuses) &&
+                (accountDto.AccountGradation == testAccBlack.AccountGradation);
 
-            Assert.IsNotNull(accountDto);
+            Assert.IsTrue(equalOrNot);
         }
 
         [Test]

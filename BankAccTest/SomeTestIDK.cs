@@ -2,7 +2,7 @@ using Storage;
 
 namespace StorageLayerTest
 {
-    public class Tests
+    public class StorageTest
     {
         const string path = "E:\\EduBlya\\filecsv.csv";
         const string firstAccNumber = "1111 1111 1111 1111";
