@@ -1,9 +1,10 @@
 ﻿using BLL;
+using Moq;
 using Storage;
 
 namespace BLLTest
 {
-    public class AccServiceStorageEngagement
+    public class AccServiceStorageEngagement//аккаунт сервис тест
     {
         const string path = "E:\\EduBlya\\filecsv.csv";
 
@@ -64,17 +65,17 @@ namespace BLLTest
                 (accountDto.Balance == testAccBlack.Balance) &&
                 (accountDto.Bonuses == testAccBlack.Bonuses) &&
                 (accountDto.AccountGradation == testAccBlack.AccountGradation);
-
+            //написать кучу ассертов Assert.Multiply
             Assert.IsTrue(equalOrNot);
         }
 
         [Test]
-        public void Find_OneAccount_OneAccountFinded()
+        public void Find_OneAccount_OneAccountFinded()//FindAccountByNumber
         {
-            var fileStorage = new FileStorage(path);
+            var fileStorage = new FileStorage(path);//через сетап
             AccountService accountService = new AccountService(fileStorage);
-
             fileStorage.AddAccount(testAccBlack);
+
             bool exist = accountService.FindAccountByNumber(testAccBlack.AccountNumber);
             bool notExist = accountService.FindAccountByNumber(testAccPlatinum.AccountNumber);
 
@@ -87,8 +88,8 @@ namespace BLLTest
         {
             var fileStorage = new FileStorage(path);
             AccountService accountService = new AccountService(fileStorage);
-
             fileStorage.AddAccount(testAccBlack);
+
             accountService.RefillMoney(testAccBlack.AccountNumber, 123m);
 
             Assert.True((testAccBlack.Balance + 123m) == (246.123m));
@@ -107,7 +108,7 @@ namespace BLLTest
             Assert.IsFalse(exist);
         }
 
-        [Test]        
+        [Test]
         public void WriteOff_Money_MoneyWithdrawn()
         {
             var fileStorage = new FileStorage(path);
@@ -129,7 +130,28 @@ namespace BLLTest
             fileStorage.AddAccount(testAccBlack);
             decimal? moneyAmount = (fileStorage.FindAccountByNumber(testAccBlack.AccountNumber)).Balance;
 
-            Assert.True(testAccBlack.Balance  == moneyAmount);
+            Assert.True(testAccBlack.Balance == moneyAmount);
+        }
+
+        [Test]
+        public void WriteOfssaf_Money_MoneyNotWithdrawn()//норм нейминг
+        {
+            var mock = new Mock<IAccountConverter>();
+            mock.Setup(a => a.CreateGoldAccount(It.IsAny<AccountDto>())).Returns(new GoldAccount("2222 2222 2222 2222",
+            "Konstantsin",
+            "Ermolenko",
+            24.123m,
+            122,
+            "Gold"));
+
+            var fck = new AccountFactory(mock.Object);
+            var yhui = new AccountDto()
+            {
+                AccountGradation = "Gold"
+            };
+            var acc = fck.ReturnAccountGradation(yhui);
+
+            mock.Verify(a => a.CreateGoldAccount(It.IsAny<AccountDto>()), Times.Once);
         }
     }
 }

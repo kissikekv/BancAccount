@@ -2,7 +2,7 @@ using BLL;
 using Moq;
 using Storage;
 
-namespace BLLTest
+namespace BLL.Tests
 {
     public class AccFnCEngagement
     {
@@ -59,12 +59,12 @@ namespace BLLTest
         }
 
         [Test]
-        public void Convert_OnePlatinumAccount_OneBlackPlatinumConverted()
+        public void Convert_OnePlatinumAccount_OneBlackPlatinumConverted()//не то название
         {
             AccountConverter converter = new AccountConverter();
             AccountFactory accountFactory = new AccountFactory(converter);
 
-            var acc = accountFactory.ReturnAccountGradation(testAccPlatinum);
+            var acc = accountFactory.ReturnAccountGradation(testAccPlatinum);//тут
 
             Assert.IsTrue(acc is PlatinumAccount);
         }        

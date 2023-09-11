@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Storage", "Storage\Storage.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageLayerTest", "BankAccTest\StorageLayerTest.csproj", "{F3ADCB98-8F04-4A70-8BF2-3136453F8890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLLTests", "BLLTests\BLLTests.csproj", "{EF93BD5E-EF97-4BC8-AE4B-E2EDBE196F67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Tests", "BLLTests\BLL.Tests.csproj", "{EF93BD5E-EF97-4BC8-AE4B-E2EDBE196F67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 
 namespace BLLTests
 {
-    public class BonesesTests
+    public class BonusesTests
     {
         [Test]
         public void Bounuses_Accrual_BonusesAccrualed()
