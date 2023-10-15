@@ -1,10 +1,9 @@
-﻿using BLL;
-using Moq;
+﻿using Moq;
 using Storage;
 
-namespace BLLTest
+namespace BLL.Test
 {
-    public class AccServiceStorageEngagement//аккаунт сервис тест
+    public class AccServiceTest
     {
         const string path = "E:\\EduBlya\\filecsv.csv";
 
@@ -45,32 +44,35 @@ namespace BLLTest
         }
 
         [Test]
-        public void Create_OneAccount_OneAccountCreated()
+        public void CreateNewAccount_OneAccount_OneAccountCreated()
         {
-            var fileStorage = new FileStorage(path);
-            AccountService accountService = new AccountService(fileStorage);
-
+            FileStorage fileStorage = new FileStorage(path); 
+            AccountService? accountService = new AccountService(fileStorage);
             accountService.CreateNewAccount(
-                testAccBlack.AccountNumber,
-                testAccBlack.NameOfOwner,
-                testAccBlack.SurnameOfOwner,
-                testAccBlack.Balance,
-                testAccBlack.Bonuses,
-                testAccBlack.AccountGradation);
+            testAccBlack.AccountNumber,
+            testAccBlack.NameOfOwner,
+            testAccBlack.SurnameOfOwner,
+            testAccBlack.Balance,
+            testAccBlack.Bonuses,
+            testAccBlack.AccountGradation);
+
             AccountDto? accountDto = fileStorage.FindAccountByNumber(testAccBlack.AccountNumber);
-            bool equalOrNot = accountDto != null &&
-                (accountDto.AccountNumber == testAccBlack.AccountNumber) &&
-                (accountDto.NameOfOwner == testAccBlack.NameOfOwner) &&
-                (accountDto.SurnameOfOwner == testAccBlack.SurnameOfOwner) &&
-                (accountDto.Balance == testAccBlack.Balance) &&
-                (accountDto.Bonuses == testAccBlack.Bonuses) &&
-                (accountDto.AccountGradation == testAccBlack.AccountGradation);
-            //написать кучу ассертов Assert.Multiply
-            Assert.IsTrue(equalOrNot);
+
+            Assert.Multiple(() =>
+            {
+                Assert.AreNotEqual(accountDto, null);
+                Assert.That(accountDto.AccountNumber.Equals(testAccBlack.AccountNumber));
+                Assert.That(accountDto.NameOfOwner.Equals(testAccBlack.NameOfOwner));
+                Assert.That(accountDto.SurnameOfOwner.Equals(testAccBlack.SurnameOfOwner));
+                Assert.That(accountDto.Balance.Equals(testAccBlack.Balance));
+                Assert.That(accountDto.Bonuses.Equals(testAccBlack.Bonuses));
+                Assert.That(accountDto.AccountGradation.Equals(testAccBlack.AccountGradation));
+            }
+            );
         }
 
         [Test]
-        public void Find_OneAccount_OneAccountFinded()//FindAccountByNumber
+        public void FindAccountByNumber_OneAccount_OneAccountFinded()
         {
             var fileStorage = new FileStorage(path);//через сетап
             AccountService accountService = new AccountService(fileStorage);
